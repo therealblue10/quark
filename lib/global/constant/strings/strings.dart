@@ -16,3 +16,9 @@ class ProductLabel extends LocalizedLabel  {
     static const size           = 'Size';
     static const variant        = 'Variant';
 }
+
+class SortingTypeLabel extends LocalizedLabel {
+    static const byViews = 'Sort by viewed';
+    static const byOrder = 'Sort by order';
+    static const byShare = 'Sort by share';
+}
