@@ -1,5 +1,6 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:quark/modules/category/category_scene.dart';
 
 class QuarkSplash extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class QuarkSplash extends StatefulWidget {
 class _QuarkSplashState extends State<QuarkSplash> {
 
 var _isPaused = false;
+final GlobalKey<ScaffoldState> _scaffoldKey =  
+GlobalKey<ScaffoldState>();
 
 @override
   void initState() {
@@ -18,6 +21,7 @@ var _isPaused = false;
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        key: _scaffoldKey,
         body: Center(
           child: Container(
             width: 300,
@@ -35,5 +39,7 @@ var _isPaused = false;
       setState(() {
          _isPaused = true;
       });
+      Navigator.pushReplacement(_scaffoldKey.currentContext, 
+      MaterialPageRoute(builder: (context) => CategoryScene()),);
   }
 }

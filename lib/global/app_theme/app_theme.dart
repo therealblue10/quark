@@ -37,7 +37,7 @@ TextTheme _buildAppTextTheme(
       ),
       subtitle2: base.subtitle2.copyWith(
         fontSize: 24,
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.normal,
       ),
       caption: base.caption.copyWith(
         fontSize: 20,
