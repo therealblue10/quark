@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:quark/global/constant/url_endpoints/url_endpoints.dart'
 as QuarkURL;
@@ -16,7 +17,7 @@ abstract class _CategoryStore with Store {
   }
 
   @observable
-  bool hasData;
+  bool hasData = false;
 
   @observable
   CategoryList allCategoryList;
@@ -34,13 +35,13 @@ abstract class _CategoryStore with Store {
 
         // Filter super categories such as Men's Wear
         this.superCategoryList =
-            this.allCategoryList.categories.where((category)
-            => category.childCategories.length > 0);
+        (this.allCategoryList.categories.where((category)
+            => category.childCategories.length > 0)).toList();
 
         // Filter sub categories such as Jeans, T-Shirts in Men's Wear
         this.productCategoryList =
-            this.allCategoryList.categories.where((category)
-            => category.childCategories.length == 0);
+        (this.allCategoryList.categories.where((category)
+            => category.childCategories.length == 0)).toList();
 
         // When data is available to be displayed
         this.hasData = (this.allCategoryList.categories.length ?? 0) > 0;
