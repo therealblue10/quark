@@ -13,7 +13,6 @@ var _isPaused = false;
 @override
   void initState() {
     super.initState();
-    print('Init state');
     Future.delayed(Duration(seconds: 3), didEndSplashAnimation);
   }
 
@@ -33,7 +32,6 @@ var _isPaused = false;
 
   void didEndSplashAnimation() {
       // Go to home screen from here
-      print('Splash enaimation ended');
       setState(() {
          _isPaused = true;
       });
