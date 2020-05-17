@@ -8,7 +8,7 @@ class CategoryList {
     factory CategoryList.fromJson(Map<String, dynamic> json) {
         return CategoryList(
             categories: json['categories'] != null ? (json['categories'] as List).map((i) => Category.fromJson(i)).toList() : null, 
-            rankings: json['rankings'] != null ? (json['rankings'] as List).map((i) => Ranking.fromJson(i)).toList() : null, 
+            rankings: json['rankings'] != null ? (json['rankings'] as List).map((i) => Ranking.fromJson(i)).toList() : null,
         );
     }
 
@@ -56,35 +56,97 @@ class Category {
 }
 
 class Product {
+    String dateAdded;
     int id;
-    int shares;
+    String name;
+    Tax tax;
+    List<Variant> variants;
 
-    Product({this.id, this.shares});
+    Product({this.dateAdded, this.id, this.name, this.tax, this.variants});
 
     factory Product.fromJson(Map<String, dynamic> json) {
         return Product(
+            dateAdded: json['date_added'],
             id: json['id'],
-            shares: json['shares'],
+            name: json['name'],
+            tax: json['tax'] != null ? Tax.fromJson(json['tax']) : null,
+            variants: json['variants'] != null ? (json['variants'] as List).map((i) => Variant.fromJson(i)).toList() : null,
         );
     }
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['date_added'] = this.dateAdded;
         data['id'] = this.id;
-        data['shares'] = this.shares;
+        data['name'] = this.name;
+        if (this.tax != null) {
+            data['tax'] = this.tax.toJson();
+        }
+        if (this.variants != null) {
+            data['variants'] = this.variants.map((v) => v.toJson()).toList();
+        }
         return data;
     }
 }
 
+class Tax {
+    String name;
+    double value;
+
+    Tax({this.name, this.value});
+
+    factory Tax.fromJson(Map<String, dynamic> json) {
+        return Tax(
+            name: json['name'],
+            value: (json['value'] + .0),
+        );
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['name'] = this.name;
+        data['value'] = this.value;
+        return data;
+    }
+}
+
+class Variant {
+    String color;
+    int id;
+    int price;
+    int size;
+
+    Variant({this.color, this.id, this.price, this.size});
+
+    factory Variant.fromJson(Map<String, dynamic> json) {
+        return Variant(
+            color: json['color'],
+            id: json['id'],
+            price: json['price'],
+            size: json['size'],
+        );
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['color'] = this.color;
+        data['id'] = this.id;
+        data['price'] = this.price;
+        data['size'] = this.size;
+        return data;
+    }
+}
+
+
 class Ranking {
-    List<Product> products;
+    List<RankedProduct> products;
     String ranking;
 
     Ranking({this.products, this.ranking});
 
     factory Ranking.fromJson(Map<String, dynamic> json) {
         return Ranking(
-            products: json['products'] != null ? (json['products'] as List).map((i) => Product.fromJson(i)).toList() : null,
+            products: json['products'] != null ? (json['products'] as List).map((i) => RankedProduct.fromJson(i)).toList() : null,
             ranking: json['ranking'],
         );
     }
@@ -95,6 +157,27 @@ class Ranking {
         if (this.products != null) {
             data['products'] = this.products.map((v) => v.toJson()).toList();
         }
+        return data;
+    }
+}
+
+class RankedProduct {
+    int id;
+    int ranking;
+
+    RankedProduct({this.id, this.ranking});
+
+    factory RankedProduct.fromJson(Map<String, dynamic> json) {
+        return RankedProduct(
+            id: json['id'],
+            ranking: json['ranking'],
+        );
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['id'] = this.id;
+        data['ranking'] = this.ranking;
         return data;
     }
 }
