@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:quark/global/constant/url_endpoints/url_endpoints.dart'
 as QuarkURL;
@@ -21,6 +20,9 @@ abstract class _CategoryStore with Store {
 
   @observable
   CategoryList allCategoryList;
+
+  @observable
+  List<Ranking> rankings;
 
   @observable
   List<Category> superCategoryList;
@@ -50,6 +52,9 @@ abstract class _CategoryStore with Store {
   fetchProducts() {
     httpClient.getResponse().then((categoryList) {
         this.allCategoryList = CategoryList.fromJson(categoryList);
+
+        // Rankings
+        this.rankings = this.allCategoryList.rankings;
 
         // Filter super categories such as Men's Wear
         this.superCategoryList =

@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quark/global/brand_color/color.dart';
 import 'package:quark/global/constant/strings/strings.dart';
 import 'package:quark/modules/category/category_list.dart';
 import 'package:quark/modules/product/product_scene.dart';
+import 'package:quark/modules/product/product_store.dart';
 import 'package:quark/widget/widget.dart' as Widgets;
 
 class ProductCategoryScene extends StatelessWidget {
 
   ProductCategoryScene({Key key,
-    @required this.productCategories}):
+    @required this.productCategories, this.rankings}):
         super(key: key);
 
   final List<Category> productCategories;
+  final List<Ranking> rankings;
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +58,13 @@ class ProductCategoryScene extends StatelessWidget {
 
   void didSelectItemAt(BuildContext context, List<Product> products) {
     if (products.length > 0) {
+      final productStore        = Provider.of<ProductStore>(context, listen: false);
+      productStore.rankings     = this.rankings;
+      productStore.allProducts  = products;
+      productStore.sortBy(RankType.byViews);
       Navigator.push(context,
         MaterialPageRoute(builder: (context) =>
-            ProductScene(products: products,)),);
+            ProductScene()),);
     }
   }
 

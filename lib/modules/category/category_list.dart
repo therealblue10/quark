@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class CategoryList {
     List<Category> categories;
     List<Ranking> rankings;
@@ -141,13 +143,35 @@ class Variant {
 class Ranking {
     List<RankedProduct> products;
     String ranking;
+    RankType type;
 
-    Ranking({this.products, this.ranking});
+    Ranking({this.products, this.ranking, this.type});
 
     factory Ranking.fromJson(Map<String, dynamic> json) {
+        final rankings = json['products'];
+        List<RankedProduct> productList;
+        if(rankings != null) {
+            var rankedProducts = json['products'] as List;
+            var products = rankedProducts.map((element) {
+                final ranking  = element['view_count'] ??
+                    (element['order_count'] ?? element['shares']);
+                return RankedProduct(id: element['id'],
+                    ranking: ranking);
+            });
+
+            productList = products.toList();
+        }
+        final ranking =  json['ranking'];
+        var rankType  = RankType.byViews;
+        if(ranking == 'Most ShaRed Products') {
+            rankType = RankType.byShare;
+        } else if (ranking == 'Most OrdeRed Products') {
+            rankType = RankType.byOrder;
+        }
         return Ranking(
-            products: json['products'] != null ? (json['products'] as List).map((i) => RankedProduct.fromJson(i)).toList() : null,
-            ranking: json['ranking'],
+            products: productList,
+            ranking: ranking,
+            type: rankType,
         );
     }
 
@@ -164,13 +188,12 @@ class Ranking {
 class RankedProduct {
     int id;
     int ranking;
-
     RankedProduct({this.id, this.ranking});
 
     factory RankedProduct.fromJson(Map<String, dynamic> json) {
         return RankedProduct(
             id: json['id'],
-            ranking: json['ranking'],
+            ranking: json['ranking']
         );
     }
 
@@ -180,4 +203,10 @@ class RankedProduct {
         data['ranking'] = this.ranking;
         return data;
     }
+}
+
+enum RankType {
+    byViews,
+    byShare,
+    byOrder
 }

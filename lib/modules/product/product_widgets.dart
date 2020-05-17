@@ -68,7 +68,7 @@ class ProductVariant extends StatelessWidget {
                   ),
                   ProductAttribute(
                     attribute: ProductLabel.price,
-                    value: '${product.variants.first.price}',
+                    value: '₹${product.variants.first.price}',
                   )
                 ],
               )
@@ -105,7 +105,7 @@ class ProductAttribute extends StatelessWidget {
                 fontSize: 14,
                 color: SecondaryColor.darkGray
             ),),
-          Text(value,
+          Text(value == 'null' ? 'NA': value,
             style: Theme.of(context).textTheme.subtitle2.copyWith(
                 fontSize: 14,
                 color: SecondaryColor.lightBlack
