@@ -5,6 +5,8 @@ import 'package:quark/global/brand_color/color.dart';
 import 'package:quark/global/constant/strings/strings.dart';
 import 'package:quark/modules/category/category_list.dart';
 import 'package:quark/modules/category/category_store.dart';
+import 'package:quark/modules/product_category/product_category_scene.dart';
+import 'package:quark/widget/widget.dart' as Widgets;
 
 class CategoryScene extends StatelessWidget {
 
@@ -38,30 +40,16 @@ class CategoryScene extends StatelessWidget {
           child: ListView.builder(itemBuilder: (context, index) {
             final category = categories[index];
             return InkWell(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(category.name,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
-                            fontSize: 18,
-                            color: SecondaryColor.lightBlack
-                        ),),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.keyboard_arrow_right,
-                          color: SecondaryColor.lightGray,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 1,
-                    height: 60,
-                  ),
-                ],
+              onTap: () {
+                // Retrieve product-categories for the selected category
+                final categoryStore =
+                Provider.of<CategoryStore>(context, listen: false);
+                final productCategories = categoryStore.
+                filteredProductCategoryList(index);
+                didSelectItemAt(context, productCategories);
+              },
+              child: Widgets.CategoryListItem(
+                title: category.name,
               ),
             );
           },
@@ -69,5 +57,13 @@ class CategoryScene extends StatelessWidget {
           ),
       ),
     );
+  }
+
+  void didSelectItemAt(BuildContext context, List<Category> productCategories) {
+    if (productCategories.length > 0) {
+      Navigator.push(context,
+        MaterialPageRoute(builder: (context) =>
+            ProductCategoryScene(productCategories: productCategories,)),);
+    }
   }
 }

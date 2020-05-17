@@ -28,6 +28,24 @@ abstract class _CategoryStore with Store {
   @observable
   List<Category> productCategoryList;
 
+  // Filter product-categories list for selected category
+  @action
+  List<Category> filteredProductCategoryList(int index) {
+    final selectedCategory =  this.superCategoryList[index];
+
+    // Get subcategories for this category
+    final productCategoriesIds = selectedCategory.childCategories;
+    List<Category> productCategories = [];
+    for (int uid in productCategoriesIds) {
+      final categories =  (this.productCategoryList.where((category)
+      => category.id == uid)).toList();
+      if (categories.length > 0) {
+        productCategories.add(categories.first);
+      }
+    }
+    return productCategories;
+  }
+
   @action
   fetchProducts() {
     httpClient.getResponse().then((categoryList) {
