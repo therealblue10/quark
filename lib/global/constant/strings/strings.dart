@@ -8,3 +8,11 @@ class CategoryLabel extends LocalizedLabel  {
 class ProductCategoryLabel extends LocalizedLabel  {
     static const screenTitle = 'Subcategory';
 }
+
+class ProductLabel extends LocalizedLabel  {
+    static const screenTitle    = 'Products';
+    static const color          = 'Color';
+    static const price          = 'Price';
+    static const size           = 'Size';
+    static const variant        = 'Variant';
+}

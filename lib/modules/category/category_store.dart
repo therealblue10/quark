@@ -64,7 +64,7 @@ abstract class _CategoryStore with Store {
         // When data is available to be displayed
         this.hasData = (this.allCategoryList.categories.length ?? 0) > 0;
 
-    }).catchError( (error) => error);
+    }).catchError( (error) => print('error: $error'));
   }
  
 }
