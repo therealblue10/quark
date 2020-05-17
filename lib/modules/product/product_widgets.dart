@@ -7,10 +7,11 @@ import 'package:quark/modules/category/category_list.dart';
 class ProductVariant extends StatelessWidget {
 
   ProductVariant({Key key,
-    @required this.product}):
+    @required this.variant, this.showVariantDropdown = true}):
         super(key: key);
 
-  final Product product;
+  final Variant variant;
+  final bool showVariantDropdown;
 
   @override
   Widget build(BuildContext context) {
@@ -33,24 +34,27 @@ class ProductVariant extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Text(ProductLabel.variant,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .subtitle2
-                        .copyWith(
-                        fontSize: 14,
-                        color: SecondaryColor.randiantRed
-                    ),),
-                  Align(
-                    child: Icon(
-                      Icons.arrow_drop_down,
-                      color: SecondaryColor.randiantRed,
-                    ),
-                  )
-                ],
+              Visibility(
+                visible: this.showVariantDropdown,
+                child: Row(
+                  children: <Widget>[
+                    Text(ProductLabel.variant,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .subtitle2
+                          .copyWith(
+                          fontSize: 14,
+                          color: SecondaryColor.randiantRed
+                      ),),
+                    Align(
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: SecondaryColor.randiantRed,
+                      ),
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: 15,
@@ -60,15 +64,15 @@ class ProductVariant extends StatelessWidget {
                 children: <Widget>[
                   ProductAttribute(
                     attribute: ProductLabel.color,
-                    value: product.variants.first.color,
+                    value: variant.color,
                   ),
                   ProductAttribute(
                     attribute: ProductLabel.size,
-                    value: '${product.variants.first.size}',
+                    value: '${variant.size}',
                   ),
                   ProductAttribute(
                     attribute: ProductLabel.price,
-                    value: '₹${product.variants.first.price}',
+                    value: '₹${variant.price}',
                   )
                 ],
               )

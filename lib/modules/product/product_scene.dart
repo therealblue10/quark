@@ -6,6 +6,7 @@ import 'package:quark/global/constant/strings/strings.dart';
 import 'package:quark/modules/category/category_list.dart';
 import 'package:quark/modules/product/product_store.dart';
 import 'package:quark/modules/product/product_widgets.dart' as Widgets;
+import 'package:quark/modules/product_variant/product_variant_scene.dart';
 
 class ProductScene extends StatelessWidget {
 
@@ -76,6 +77,9 @@ class ProductScene extends StatelessWidget {
         child: ListView.builder(itemBuilder: (context, index) {
           final product = products[index];
           return InkWell(
+            onTap: () {
+              showProductVariants(context, product);
+            },
               child: Container(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Card(
@@ -94,7 +98,7 @@ class ProductScene extends StatelessWidget {
                               color: SecondaryColor.lightBlack
                           ),),
                         Widgets.ProductVariant(
-                          product: product,
+                          variant: product.variants.first,
                         ),
                       ],
                     ),
@@ -109,5 +113,15 @@ class ProductScene extends StatelessWidget {
     );
   }
 
+
+  void showProductVariants(BuildContext context, Product product) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ProductVariantScene(
+              product: product
+          )),
+    );
+  }
 }
 
